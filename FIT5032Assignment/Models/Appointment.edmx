@@ -1,0 +1,403 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="AspNetUserRoles" EntityType="Model.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PatientSet" EntityType="Model.Store.PatientSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DoctorSet" EntityType="Model.Store.DoctorSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BookingSet" EntityType="Model.Store.BookingSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AdministratorSet" EntityType="Model.Store.AdministratorSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="AspNetUserRolesPatient" Association="Model.Store.AspNetUserRolesPatient">
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+      <End Role="Patient" EntitySet="PatientSet" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRolesDoctor" Association="Model.Store.AspNetUserRolesDoctor">
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+      <End Role="Doctor" EntitySet="DoctorSet" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRolesAdministrator" Association="Model.Store.AspNetUserRolesAdministrator">
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+      <End Role="Administrator" EntitySet="AdministratorSet" />
+    </AssociationSet>
+    <AssociationSet Name="DoctorBooking" Association="Model.Store.DoctorBooking">
+      <End Role="Doctor" EntitySet="DoctorSet" />
+      <End Role="Booking" EntitySet="BookingSet" />
+    </AssociationSet>
+    <AssociationSet Name="PatientBooking" Association="Model.Store.PatientBooking">
+      <End Role="Patient" EntitySet="PatientSet" />
+      <End Role="Booking" EntitySet="BookingSet" />
+    </AssociationSet>
+    <AssociationSet Name="AdministratorBooking" Association="Model.Store.AdministratorBooking">
+      <End Role="Administrator" EntitySet="AdministratorSet" />
+      <End Role="Booking" EntitySet="BookingSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AspNetUserRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="RoleId" Type="nvarchar" Nullable="false" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="PatientSet">
+    <Key>
+      <PropertyRef Name="Patient_Id" />
+    </Key>
+    <Property Name="Patient_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="First_Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Last_Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserID" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AspNetUserRoles_UserId" Type="nvarchar" MaxLength="128" Nullable="true" />
+    <Property Name="AspNetUserRoles_RoleId" Type="nvarchar" MaxLength="128" Nullable="true" />
+  </EntityType>
+  <EntityType Name="DoctorSet">
+    <Key>
+      <PropertyRef Name="Doctor_Id" />
+    </Key>
+    <Property Name="Doctor_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AspNetUserRoles_UserId" Type="nvarchar" MaxLength="128" Nullable="true" />
+    <Property Name="AspNetUserRoles_RoleId" Type="nvarchar" MaxLength="128" Nullable="true" />
+  </EntityType>
+  <EntityType Name="BookingSet">
+    <Key>
+      <PropertyRef Name="Booking_Id" />
+    </Key>
+    <Property Name="Booking_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DoctorDoctor_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PatientPatient_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AdministratorAdmin_Id" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AdministratorSet">
+    <Key>
+      <PropertyRef Name="Admin_Id" />
+    </Key>
+    <Property Name="Admin_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Admin_Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AspNetUserRoles_UserId" Type="nvarchar" MaxLength="128" Nullable="true" />
+    <Property Name="AspNetUserRoles_RoleId" Type="nvarchar" MaxLength="128" Nullable="true" />
+  </EntityType>
+  <Association Name="AspNetUserRolesPatient">
+    <End Role="AspNetUserRoles" Type="Model.Store.AspNetUserRoles" Multiplicity="0..1" />
+    <End Role="Patient" Type="Model.Store.PatientSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUserRoles">
+        <PropertyRef Name="UserId" />
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="Patient">
+        <PropertyRef Name="AspNetUserRoles_UserId" />
+        <PropertyRef Name="AspNetUserRoles_RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRolesDoctor">
+    <End Role="AspNetUserRoles" Type="Model.Store.AspNetUserRoles" Multiplicity="0..1" />
+    <End Role="Doctor" Type="Model.Store.DoctorSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUserRoles">
+        <PropertyRef Name="UserId" />
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="Doctor">
+        <PropertyRef Name="AspNetUserRoles_UserId" />
+        <PropertyRef Name="AspNetUserRoles_RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRolesAdministrator">
+    <End Role="AspNetUserRoles" Type="Model.Store.AspNetUserRoles" Multiplicity="0..1" />
+    <End Role="Administrator" Type="Model.Store.AdministratorSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUserRoles">
+        <PropertyRef Name="UserId" />
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="Administrator">
+        <PropertyRef Name="AspNetUserRoles_UserId" />
+        <PropertyRef Name="AspNetUserRoles_RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DoctorBooking">
+    <End Role="Doctor" Type="Model.Store.DoctorSet" Multiplicity="1" />
+    <End Role="Booking" Type="Model.Store.BookingSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Doctor">
+        <PropertyRef Name="Doctor_Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="DoctorDoctor_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PatientBooking">
+    <End Role="Patient" Type="Model.Store.PatientSet" Multiplicity="1" />
+    <End Role="Booking" Type="Model.Store.BookingSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="Patient_Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="PatientPatient_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AdministratorBooking">
+    <End Role="Administrator" Type="Model.Store.AdministratorSet" Multiplicity="1" />
+    <End Role="Booking" Type="Model.Store.BookingSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Administrator">
+        <PropertyRef Name="Admin_Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="AdministratorAdmin_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Patient" Relationship="Model.AspNetUserRolesPatient" FromRole="AspNetUserRoles" ToRole="Patient" />
+          <NavigationProperty Name="Doctor" Relationship="Model.AspNetUserRolesDoctor" FromRole="AspNetUserRoles" ToRole="Doctor" />
+          <NavigationProperty Name="Administrator" Relationship="Model.AspNetUserRolesAdministrator" FromRole="AspNetUserRoles" ToRole="Administrator" />
+        </EntityType>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" />
+          <EntitySet Name="PatientSet" EntityType="Model.Patient" />
+          <EntitySet Name="DoctorSet" EntityType="Model.Doctor" />
+          <EntitySet Name="BookingSet" EntityType="Model.Booking" />
+          <EntitySet Name="AdministratorSet" EntityType="Model.Administrator" />
+          <AssociationSet Name="AspNetUserRolesPatient" Association="Model.AspNetUserRolesPatient">
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+            <End Role="Patient" EntitySet="PatientSet" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRolesDoctor" Association="Model.AspNetUserRolesDoctor">
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+            <End Role="Doctor" EntitySet="DoctorSet" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRolesAdministrator" Association="Model.AspNetUserRolesAdministrator">
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+            <End Role="Administrator" EntitySet="AdministratorSet" />
+          </AssociationSet>
+          <AssociationSet Name="DoctorBooking" Association="Model.DoctorBooking">
+            <End Role="Doctor" EntitySet="DoctorSet" />
+            <End Role="Booking" EntitySet="BookingSet" />
+          </AssociationSet>
+          <AssociationSet Name="PatientBooking" Association="Model.PatientBooking">
+            <End Role="Patient" EntitySet="PatientSet" />
+            <End Role="Booking" EntitySet="BookingSet" />
+          </AssociationSet>
+          <AssociationSet Name="AdministratorBooking" Association="Model.AdministratorBooking">
+            <End Role="Administrator" EntitySet="AdministratorSet" />
+            <End Role="Booking" EntitySet="BookingSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="Patient_Id" />
+          </Key>
+          <Property Name="Patient_Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="First_Name" Type="String" Nullable="false" />
+          <Property Name="Last_Name" Type="String" Nullable="false" />
+          <Property Name="UserID" Type="String" Nullable="false" />
+          <NavigationProperty Name="AspNetUserRoles" Relationship="Model.AspNetUserRolesPatient" FromRole="Patient" ToRole="AspNetUserRoles" />
+          <NavigationProperty Name="Booking" Relationship="Model.PatientBooking" FromRole="Patient" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="Doctor_Id" />
+          </Key>
+          <Property Name="Doctor_Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="AspNetUserRoles" Relationship="Model.AspNetUserRolesDoctor" FromRole="Doctor" ToRole="AspNetUserRoles" />
+          <NavigationProperty Name="Booking" Relationship="Model.DoctorBooking" FromRole="Doctor" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="Booking_Id" />
+          </Key>
+          <Property Name="Booking_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Doctor" Relationship="Model.DoctorBooking" FromRole="Booking" ToRole="Doctor" />
+          <Property Name="DoctorDoctor_Id" Type="String" Nullable="false" />
+          <NavigationProperty Name="Patient" Relationship="Model.PatientBooking" FromRole="Booking" ToRole="Patient" />
+          <Property Name="PatientPatient_Id" Type="String" Nullable="false" />
+          <NavigationProperty Name="Administrator" Relationship="Model.AdministratorBooking" FromRole="Booking" ToRole="Administrator" />
+          <Property Name="AdministratorAdmin_Id" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Administrator">
+          <Key>
+            <PropertyRef Name="Admin_Id" />
+          </Key>
+          <Property Name="Admin_Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Admin_Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="AspNetUserRoles" Relationship="Model.AspNetUserRolesAdministrator" FromRole="Administrator" ToRole="AspNetUserRoles" />
+          <NavigationProperty Name="Booking" Relationship="Model.AdministratorBooking" FromRole="Administrator" ToRole="Booking" />
+        </EntityType>
+        <Association Name="AspNetUserRolesPatient">
+          <End Type="Model.AspNetUserRoles" Role="AspNetUserRoles" Multiplicity="0..1" />
+          <End Type="Model.Patient" Role="Patient" Multiplicity="0..1" />
+        </Association>
+        <Association Name="AspNetUserRolesDoctor">
+          <End Type="Model.AspNetUserRoles" Role="AspNetUserRoles" Multiplicity="0..1" />
+          <End Type="Model.Doctor" Role="Doctor" Multiplicity="0..1" />
+        </Association>
+        <Association Name="AspNetUserRolesAdministrator">
+          <End Type="Model.AspNetUserRoles" Role="AspNetUserRoles" Multiplicity="0..1" />
+          <End Type="Model.Administrator" Role="Administrator" Multiplicity="0..1" />
+        </Association>
+        <Association Name="DoctorBooking">
+          <End Type="Model.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="Model.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Doctor_Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="DoctorDoctor_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientBooking">
+          <End Type="Model.Patient" Role="Patient" Multiplicity="1" />
+          <End Type="Model.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Patient_Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="PatientPatient_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AdministratorBooking">
+          <End Type="Model.Administrator" Role="Administrator" Multiplicity="1" />
+          <End Type="Model.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Administrator">
+              <PropertyRef Name="Admin_Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="AdministratorAdmin_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+    <EntitySetMapping Name="AspNetUserRoles">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.AspNetUserRoles)">
+        <MappingFragment StoreEntitySet="AspNetUserRoles">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PatientSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Patient)">
+        <MappingFragment StoreEntitySet="PatientSet">
+          <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
+          <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+          <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DoctorSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Doctor)">
+        <MappingFragment StoreEntitySet="DoctorSet">
+          <ScalarProperty Name="Doctor_Id" ColumnName="Doctor_Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookingSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Booking)">
+        <MappingFragment StoreEntitySet="BookingSet">
+          <ScalarProperty Name="Booking_Id" ColumnName="Booking_Id" />
+          <ScalarProperty Name="DoctorDoctor_Id" ColumnName="DoctorDoctor_Id" />
+          <ScalarProperty Name="PatientPatient_Id" ColumnName="PatientPatient_Id" />
+          <ScalarProperty Name="AdministratorAdmin_Id" ColumnName="AdministratorAdmin_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdministratorSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Administrator)">
+        <MappingFragment StoreEntitySet="AdministratorSet">
+          <ScalarProperty Name="Admin_Id" ColumnName="Admin_Id" />
+          <ScalarProperty Name="Admin_Name" ColumnName="Admin_Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AspNetUserRolesPatient" TypeName="Model.AspNetUserRolesPatient" StoreEntitySet="PatientSet">
+      <EndProperty Name="AspNetUserRoles">
+        <ScalarProperty Name="UserId" ColumnName="AspNetUserRoles_UserId" />
+        <ScalarProperty Name="RoleId" ColumnName="AspNetUserRoles_RoleId" />
+      </EndProperty>
+      <EndProperty Name="Patient">
+        <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
+      </EndProperty>
+      <Condition ColumnName="AspNetUserRoles_UserId" IsNull="false" />
+      <Condition ColumnName="AspNetUserRoles_RoleId" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AspNetUserRolesDoctor" TypeName="Model.AspNetUserRolesDoctor" StoreEntitySet="DoctorSet">
+      <EndProperty Name="AspNetUserRoles">
+        <ScalarProperty Name="UserId" ColumnName="AspNetUserRoles_UserId" />
+        <ScalarProperty Name="RoleId" ColumnName="AspNetUserRoles_RoleId" />
+      </EndProperty>
+      <EndProperty Name="Doctor">
+        <ScalarProperty Name="Doctor_Id" ColumnName="Doctor_Id" />
+      </EndProperty>
+      <Condition ColumnName="AspNetUserRoles_UserId" IsNull="false" />
+      <Condition ColumnName="AspNetUserRoles_RoleId" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AspNetUserRolesAdministrator" TypeName="Model.AspNetUserRolesAdministrator" StoreEntitySet="AdministratorSet">
+      <EndProperty Name="AspNetUserRoles">
+        <ScalarProperty Name="UserId" ColumnName="AspNetUserRoles_UserId" />
+        <ScalarProperty Name="RoleId" ColumnName="AspNetUserRoles_RoleId" />
+      </EndProperty>
+      <EndProperty Name="Administrator">
+        <ScalarProperty Name="Admin_Id" ColumnName="Admin_Id" />
+      </EndProperty>
+      <Condition ColumnName="AspNetUserRoles_UserId" IsNull="false" />
+      <Condition ColumnName="AspNetUserRoles_RoleId" IsNull="false" />
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
